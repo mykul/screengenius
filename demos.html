@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Demos — ScreenGeni.us</title>
+  <meta name="description" content="Six real experiences across different industries. Click any to explore — no login required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo-mark-transparent.png" alt="ScreenGeni.us mark" class="nav-logo-mark" />
+    <span>ScreenGeni.us</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="demos.html">Demos</a></li>
+    <li><a href="platform.html">Platform</a></li>
+    <li><a href="index.html#cta" class="btn-primary" style="padding:8px 16px;font-size:14px">Book a demo</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="demos.html">Demos</a>
+  <a href="platform.html">Platform</a>
+  <a href="index.html#cta" class="btn-primary">Book a demo</a>
+</div>
+
+<!-- PAGE HEADER -->
+<section class="sec-wrap" style="padding:56px 40px 36px">
+  <div class="label" style="margin-bottom:14px">Live demos</div>
+  <h1 style="font-size:38px;font-weight:300;letter-spacing:-0.03em;margin-bottom:12px;animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both">See it in action</h1>
+  <p style="color:var(--mist);line-height:1.75;max-width:600px;animation:fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both">Six real experiences across different industries. Click any to explore — no login required.</p>
+</section>
+
+<!-- FILTERS -->
+<div style="padding:20px 40px;border-bottom:0.5px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;background:var(--deep)">
+  <button class="filter-btn active" onclick="filter('all',this)">All</button>
+  <button class="filter-btn" onclick="filter('media',this)">Media &amp; publishing</button>
+  <button class="filter-btn" onclick="filter('retail',this)">Retail &amp; commerce</button>
+  <button class="filter-btn" onclick="filter('museum',this)">Museums &amp; cultural</button>
+  <button class="filter-btn" onclick="filter('enterprise',this)">Enterprise</button>
+  <button class="filter-btn" onclick="filter('sports',this)">Sports &amp; events</button>
+</div>
+
+<!-- DEMO GRID -->
+<div style="padding:32px 40px 60px" id="demo-grid">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px" class="stagger">
+
+    <!-- Star Tribune -->
+    <a class="demo-card" data-cat="media" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--iris);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Strib Fair Bot</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">What are you in the mood for?</div>
+          <div class="thumb-lines">
+            <div class="thumb-line" style="width:100%"></div>
+            <div class="thumb-line" style="width:75%"></div>
+            <div class="thumb-line" style="width:88%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-media">Media &amp; publishing</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">Minnesota Star Tribune</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">Conversational food discovery for the State Fair.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Find a cheese curd</span>
+          <span class="query-pill">Best new foods</span>
+          <span class="query-pill">Vegetarian options</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+    <!-- Movie & TV -->
+    <a class="demo-card" data-cat="media" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--iris);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Movie &amp; TV finder</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">What's your mood tonight?</div>
+          <div class="thumb-lines">
+            <div class="thumb-line" style="width:90%"></div>
+            <div class="thumb-line" style="width:60%"></div>
+            <div class="thumb-line" style="width:80%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-media">Media &amp; publishing</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">Movie &amp; TV finder</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">Help audiences discover what to watch based on mood and taste.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Something like Severance</span>
+          <span class="query-pill">90s comedies</span>
+          <span class="query-pill">Short episodes</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+    <!-- MoMA -->
+    <a class="demo-card" data-cat="museum" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--violet);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">MoMA curator</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">Explore the collection</div>
+          <div class="thumb-lines" style="opacity:0.15">
+            <div class="thumb-line" style="width:100%;background:var(--violet)"></div>
+            <div class="thumb-line" style="width:70%;background:var(--violet)"></div>
+            <div class="thumb-line" style="width:85%;background:var(--violet)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-museum">Museums &amp; cultural</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">MoMA curator</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">Guide visitors through the collection with a conversational guide.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Abstract expressionism</span>
+          <span class="query-pill">Under $500k</span>
+          <span class="query-pill">Surrealism</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+    <!-- Bedding shop -->
+    <a class="demo-card" data-cat="retail" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--green);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Bedding shop</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">Find your perfect sleep setup</div>
+          <div class="thumb-lines" style="opacity:0.18">
+            <div class="thumb-line" style="width:95%;background:var(--green)"></div>
+            <div class="thumb-line" style="width:65%;background:var(--green)"></div>
+            <div class="thumb-line" style="width:80%;background:var(--green)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-retail">Retail &amp; commerce</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">Bedding shop</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">Agent-native retail — find the right bedding through conversation.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Hot sleeper</span>
+          <span class="query-pill">King, under $300</span>
+          <span class="query-pill">Organic materials</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+    <!-- Resale marketplace -->
+    <a class="demo-card" data-cat="retail" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--green);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Resale marketplace</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">Search the secondhand catalog</div>
+          <div class="thumb-lines" style="opacity:0.18">
+            <div class="thumb-line" style="width:100%;background:var(--green)"></div>
+            <div class="thumb-line" style="width:55%;background:var(--green)"></div>
+            <div class="thumb-line" style="width:78%;background:var(--green)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-retail">Retail &amp; commerce</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">Resale marketplace</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">Discovery across large, unstructured secondhand inventories.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Vintage Levi's 501</span>
+          <span class="query-pill">Size M jackets</span>
+          <span class="query-pill">Under $50</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+    <!-- Discovery agent -->
+    <a class="demo-card" data-cat="enterprise" href="#" target="_blank" rel="noopener">
+      <div class="demo-thumb">
+        <div style="position:absolute;top:12px;left:14px;right:14px">
+          <div style="font-size:9px;color:var(--amber);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Discovery agent</div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:8px">Search internal knowledge</div>
+          <div class="thumb-lines" style="opacity:0.2">
+            <div class="thumb-line" style="width:90%;background:var(--amber)"></div>
+            <div class="thumb-line" style="width:68%;background:var(--amber)"></div>
+            <div class="thumb-line" style="width:82%;background:var(--amber)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-body">
+        <span class="demo-chip chip-enterprise">Enterprise</span>
+        <div style="font-size:16px;font-weight:500;margin-bottom:6px">Discovery agent</div>
+        <div style="font-size:15px;color:var(--mist);line-height:1.65;margin-bottom:12px;flex:1">AI research assistant across large internal knowledge bases.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="query-pill">Find our Q3 policy</span>
+          <span class="query-pill">Summarize last release</span>
+          <span class="query-pill">Compare vendors</span>
+        </div>
+        <div class="launch-btn">Launch <i class="ti ti-external-link" style="font-size:13px" aria-hidden="true"></i></div>
+      </div>
+    </a>
+
+  </div>
+
+  <div id="empty-state" style="display:none;text-align:center;padding:56px 0">
+    <div style="color:var(--dim)">No demos in this category yet.</div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA STRIP -->
+<div style="background:var(--deep);border-top:0.5px solid var(--border);padding:36px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px" class="reveal">
+  <div>
+    <div style="font-size:20px;font-weight:500;margin-bottom:6px">Want to see it with your content?</div>
+    <div style="color:var(--mist);line-height:1.75">Bring us your catalog or archive — we'll build a live demo in days.</div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="index.html#cta" class="btn-primary">Book a demo</a>
+    <a href="#" class="btn-ghost">Contact us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <a href="index.html" class="footer-logo">
+    <img src="img/logo-mark-transparent.png" alt="ScreenGeni.us mark" class="footer-logo-mark" />
+    <span style="font-size:13px;color:var(--dim)">ScreenGeni.us</span>
+  </a>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="demos.html">Demos</a></li>
+    <li><a href="platform.html">Platform</a></li>
+    <li><a href="#">Privacy</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 ScreenGeni.us</span>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
