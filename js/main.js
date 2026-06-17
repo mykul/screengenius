@@ -64,6 +64,12 @@ function filter(cat, btn) {
 /* ── Contact modal ─────────────────────────────────────────── */
 (function () {
 
+  /* Web3Forms config — get a free access key at https://web3forms.com
+     (register it with daniel@screengeni.us so submissions go there).
+     CC_TESTING sends a copy elsewhere while testing — set to '' to disable. */
+  const WEB3FORMS_ACCESS_KEY = '5ec919e6-d303-4f9e-ac97-03a8a8e1919e';
+  const CC_TESTING = 'mike@sfmediaworks.com';
+
   /* Inject modal HTML once */
   const MODAL_HTML = `
   <div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
@@ -208,9 +214,43 @@ function filter(cat, btn) {
 
     if (!valid) return;
 
-    /* Show success state */
-    formWrap.style.display = 'none';
-    success.style.display  = 'block';
+    /* Submit to Web3Forms */
+    const submitBtn = form.querySelector('.modal-submit');
+    const origLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: 'New ScreenGeni.us demo request',
+      from_name: 'ScreenGeni.us website',
+      name:    document.getElementById('cf-name').value.trim(),
+      company: document.getElementById('cf-company').value.trim(),
+      email:   document.getElementById('cf-email').value.trim(),
+      phone:   document.getElementById('cf-phone').value.trim(),
+    };
+    payload.replyto = payload.email;
+    if (CC_TESTING) payload.cc = CC_TESTING;
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          formWrap.style.display = 'none';
+          success.style.display  = 'block';
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      })
+      .catch(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = origLabel;
+        alert('Sorry, something went wrong sending your request. Please email us directly at daniel@screengeni.us.');
+      });
   });
 
   /* Clear field error on input */
