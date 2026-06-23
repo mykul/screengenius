@@ -38,24 +38,23 @@
 </div>
 
 <!-- PAGE HEADER -->
-<section class="sec-wrap" style="padding:56px 40px 36px">
+<section class="sec-wrap sec-tight">
   <div class="label" style="margin-bottom:14px">Live demos</div>
-  <h1 style="font-size:38px;font-weight:300;letter-spacing:-0.03em;margin-bottom:12px;animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both">See it in action</h1>
-  <p style="color:var(--mist);line-height:1.75;max-width:600px;animation:fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both">Six real experiences across different industries. Click any to explore — no login required.</p>
+  <h1 style="font-size:var(--h2-xl);font-weight:300;letter-spacing:-0.05em;line-height:1.02;margin-bottom:14px;animation:fadeUp 0.7s var(--ease-out) both">See it in action</h1>
+  <p style="color:var(--mist);line-height:1.7;animation:fadeUp 0.7s 0.1s var(--ease-out) both">Six real experiences across different industries. Click any to explore — no login required.</p>
 </section>
 
-<!-- FILTERS -->
-<div style="padding:20px 40px;border-bottom:0.5px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;background:var(--deep)">
-  <button class="filter-btn active" onclick="filter('all',this)">All</button>
-  <button class="filter-btn" onclick="filter('media',this)">Media &amp; publishing</button>
-  <button class="filter-btn" onclick="filter('retail',this)">Retail &amp; commerce</button>
-  <button class="filter-btn" onclick="filter('museum',this)">Museums &amp; cultural</button>
-  <button class="filter-btn" onclick="filter('enterprise',this)">Enterprise</button>
-  <button class="filter-btn" onclick="filter('sports',this)">Sports &amp; events</button>
-</div>
+<!-- FILTERS + DEMO GRID -->
+<section class="sec-wrap" id="demo-grid" style="padding-top:0">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+    <button class="filter-btn active" onclick="filter('all',this)">All</button>
+    <button class="filter-btn" onclick="filter('media',this)">Media &amp; publishing</button>
+    <button class="filter-btn" onclick="filter('retail',this)">Retail &amp; commerce</button>
+    <button class="filter-btn" onclick="filter('museum',this)">Museums &amp; cultural</button>
+    <button class="filter-btn" onclick="filter('enterprise',this)">Enterprise</button>
+    <button class="filter-btn" onclick="filter('sports',this)">Sports &amp; events</button>
+  </div>
 
-<!-- DEMO GRID -->
-<div style="padding:32px 40px 60px" id="demo-grid">
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px" class="stagger">
 
     <!-- Star Tribune -->
@@ -219,19 +218,21 @@
   <div id="empty-state" style="display:none;text-align:center;padding:56px 0">
     <div style="color:var(--dim)">No demos in this category yet.</div>
   </div>
-</div>
+</section>
 
 <!-- BOTTOM CTA STRIP -->
-<div style="background:var(--deep);border-top:0.5px solid var(--border);padding:36px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px" class="reveal">
-  <div>
-    <div style="font-size:20px;font-weight:500;margin-bottom:6px">Want to see it with your content?</div>
-    <div style="color:var(--mist);line-height:1.75">Bring us your catalog or archive — we'll build a live demo in days.</div>
+<section class="sec-wrap deep reveal">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px">
+    <div>
+      <div style="font-size:20px;font-weight:500;margin-bottom:6px">Want to see it with your content?</div>
+      <div style="color:var(--mist);line-height:1.7">Bring us your catalog or archive — we'll build a live demo in days.</div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="index.html#cta" class="btn-primary">Book a demo</a>
+      <a href="#" class="btn-ghost">Contact us</a>
+    </div>
   </div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <a href="index.html#cta" class="btn-primary">Book a demo</a>
-    <a href="#" class="btn-ghost">Contact us</a>
-  </div>
-</div>
+</section>
 
 <!-- FOOTER -->
 <footer class="site-footer">
