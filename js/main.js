@@ -75,9 +75,10 @@ function filter(cat, btn) {
       <button class="modal-close" id="modal-close-btn" aria-label="Close form">&times;</button>
 
       <div id="modal-form-wrap">
-        <div class="label" style="margin-bottom:10px">Get in touch</div>
+        <div class="label" id="modal-eyebrow" style="margin-bottom:10px">Get in touch</div>
         <h2 class="modal-title" id="modal-heading">Book a demo</h2>
-        <p class="modal-sub">Tell us about yourself and we'll be in touch within one business day.</p>
+        <p class="modal-sub" id="modal-sub">Tell us about yourself and we'll be in touch within one business day.</p>
+        <p class="modal-helper" id="modal-helper" style="display:none"><i class="ti ti-bolt" aria-hidden="true"></i>No password. No sales wall. Just quick access to the live demo.</p>
 
         <form class="modal-form" id="contact-form" novalidate>
 
@@ -131,6 +132,86 @@ function filter(cat, btn) {
   const success  = document.getElementById('modal-success');
   const formWrap = document.getElementById('modal-form-wrap');
 
+  /* Copy elements that swap between "Book a demo" and "demo access" modes */
+  const eyebrowEl = document.getElementById('modal-eyebrow');
+  const titleEl   = document.getElementById('modal-heading');
+  const subEl     = document.getElementById('modal-sub');
+  const helperEl  = document.getElementById('modal-helper');
+  const submitEl  = form.querySelector('.modal-submit');
+
+  /* Capture the default (Book a demo) copy + success markup so we can restore it */
+  const DEFAULT_COPY = {
+    eyebrow: eyebrowEl.textContent,
+    title:   titleEl.textContent,
+    sub:     subEl.textContent,
+    submit:  submitEl.textContent,
+  };
+  const successDefaultHTML = success.innerHTML;
+
+  /* ── Demo-access mode state ──────────────────────────────────
+     On the demos page, each demo card opens this same modal in a
+     lightweight "demo access" mode that redirects to the live demo
+     after the visitor submits. selectedDemo holds the clicked demo. */
+  let demoAccessMode = false;
+  let selectedDemo   = null;
+
+  const DEMO_COPY = {
+    eyebrow: 'Demo access',
+    title:   'Launch this demo',
+    sub:     "Tell us where to send follow-up, then you'll go straight into the live demo.",
+    submit:  'Launch demo',
+  };
+
+  /* Guarded analytics: fires to an existing analytics util if present,
+     otherwise a silent no-op (no console noise in production). */
+  function track(name, props) {
+    props = props || {};
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, props);
+      } else if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push(Object.assign({ event: name }, props));
+      } else if (typeof window.plausible === 'function') {
+        window.plausible(name, { props: props });
+      }
+    } catch (e) { /* analytics must never break the flow */ }
+  }
+
+  /* localStorage helpers (guarded — can throw in private modes) */
+  function hasDemoAccess() {
+    try { return localStorage.getItem('screenGeniusDemoAccess') === 'granted'; }
+    catch (e) { return false; }
+  }
+  function grantDemoAccess() {
+    try { localStorage.setItem('screenGeniusDemoAccess', 'granted'); }
+    catch (e) { /* ignore */ }
+  }
+
+  /* Append the campaign UTM parameters to an outgoing demo URL */
+  function buildDemoUrl(baseUrl, slug) {
+    try {
+      const u = new URL(baseUrl);
+      u.searchParams.set('utm_source', 'screengeni_us');
+      u.searchParams.set('utm_medium', 'demo_launch');
+      u.searchParams.set('utm_campaign', 'demo_access');
+      u.searchParams.set('utm_content', slug || '');
+      return u.toString();
+    } catch (e) {
+      return baseUrl;
+    }
+  }
+
+  /* Swap modal copy for the active mode */
+  function applyMode() {
+    const c = demoAccessMode ? DEMO_COPY : DEFAULT_COPY;
+    eyebrowEl.textContent = c.eyebrow;
+    titleEl.textContent   = c.title;
+    subEl.textContent     = c.sub;
+    submitEl.textContent  = c.submit;
+    helperEl.style.display = demoAccessMode ? '' : 'none';
+    if (!demoAccessMode) success.innerHTML = successDefaultHTML;
+  }
+
   /* CTA text patterns that should open the modal */
   const CTA_PATTERNS = [
     /book a demo/i,
@@ -145,16 +226,28 @@ function filter(cat, btn) {
     return CTA_PATTERNS.some((re) => re.test(text));
   }
 
-  function openModal(e) {
-    e.preventDefault();
+  /* Open the modal. Pass a demo object to open in "demo access" mode. */
+  function openContactModal(demo) {
+    demoAccessMode = !!demo;
+    selectedDemo   = demo || null;
+    applyMode();
     form.reset();
     form.querySelectorAll('.error').forEach((el) => el.classList.remove('error'));
     formWrap.style.display = '';
     success.style.display  = 'none';
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (demoAccessMode) {
+      track('demo_access_modal_opened', { demo_name: selectedDemo.name, demo_url: selectedDemo.url });
+    }
     // Focus first input after animation
     setTimeout(() => document.getElementById('cf-name')?.focus(), 120);
+  }
+
+  /* CTA buttons ("Book a demo", etc.) open the modal in normal mode */
+  function openModal(e) {
+    e.preventDefault();
+    openContactModal(null);
   }
 
   function closeModal() {
@@ -229,6 +322,15 @@ function filter(cat, btn) {
     };
     payload.replyto = payload.email;
 
+    /* Demo-access mode: attach the selected demo + lead metadata */
+    if (demoAccessMode && selectedDemo) {
+      payload.subject          = 'ScreenGeni.us demo access — ' + selectedDemo.name;
+      payload.leadType         = 'Demo Launch';
+      payload.sourcePage       = '/demos';
+      payload.selectedDemoName = selectedDemo.name;
+      payload.selectedDemoUrl  = selectedDemo.url;
+    }
+
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -236,11 +338,27 @@ function filter(cat, btn) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (!data.success) {
+          throw new Error(data.message || 'Submission failed');
+        }
+        if (demoAccessMode && selectedDemo) {
+          /* Unlock future launches, then send the visitor into the demo */
+          grantDemoAccess();
+          track('demo_access_form_submitted', { demo_name: selectedDemo.name, demo_url: selectedDemo.url });
+          const finalUrl = buildDemoUrl(selectedDemo.url, selectedDemo.slug);
+          /* Fallback UI in case the redirect is blocked/fails */
+          success.innerHTML =
+            '<div class="success-icon">✓</div>' +
+            '<h3>You’re in.</h3>' +
+            '<p>Opening your live demo now. If it doesn’t open automatically, use the button below.</p>' +
+            '<a href="' + finalUrl + '" class="btn-primary" style="margin-top:20px" rel="noopener">Open demo →</a>';
           formWrap.style.display = 'none';
           success.style.display  = 'block';
+          track('demo_opened', { demo_name: selectedDemo.name, demo_url: finalUrl });
+          window.location.href = finalUrl;
         } else {
-          throw new Error(data.message || 'Submission failed');
+          formWrap.style.display = 'none';
+          success.style.display  = 'block';
         }
       })
       .catch(() => {
@@ -253,6 +371,31 @@ function filter(cat, btn) {
   /* Clear field error on input */
   form.querySelectorAll('input').forEach((input) => {
     input.addEventListener('input', () => input.classList.remove('error'));
+  });
+
+  /* ── Demo cards (demos page) ─────────────────────────────────
+     Each card holds the live demo URL in href, plus data-demo-name
+     and data-demo-slug. First-time visitors go through the demo-access
+     modal; returning visitors who've been granted access open the demo
+     directly in a new tab. UTM params are appended either way. */
+  document.querySelectorAll('.demo-card[data-demo-name]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const demo = {
+        name: card.getAttribute('data-demo-name'),
+        url:  card.getAttribute('href'),
+        slug: card.getAttribute('data-demo-slug'),
+      };
+      track('demo_launch_clicked', { demo_name: demo.name, demo_url: demo.url });
+
+      if (hasDemoAccess()) {
+        const finalUrl = buildDemoUrl(demo.url, demo.slug);
+        track('demo_opened', { demo_name: demo.name, demo_url: finalUrl });
+        window.open(finalUrl, '_blank', 'noopener');
+        return;
+      }
+      openContactModal(demo);
+    });
   });
 
 })();

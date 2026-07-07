@@ -752,6 +752,18 @@ button { font-family: inherit; }
   margin-bottom: 28px;
 }
 
+/* Helper line shown in the modal's "demo access" mode */
+.modal-helper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.6;
+  margin: -18px 0 24px;
+}
+.modal-helper i { color: var(--iris); font-size: 14px; }
+
 /* Form fields */
 .modal-form { display: flex; flex-direction: column; gap: 18px; }
 
