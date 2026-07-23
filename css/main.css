@@ -546,6 +546,21 @@ button { font-family: inherit; }
 }
 .footer-links a:hover { color: var(--mist); }
 .footer-copy { font-size: 13px; color: var(--dim); }
+.footer-insurance {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dim);
+}
+.footer-insurance img {
+  width: 77px;
+  max-width: 77px;
+  height: auto;
+  flex-shrink: 0;
+}
 
 /* ── Animations ─────────────────────────────────────────────── */
 @keyframes fadeUp {
