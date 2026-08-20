@@ -964,9 +964,9 @@ body {
 
 /* Purple supporting line between the headline and the sub */
 .hero-tagline {
-  font-size: clamp(20px, 2.4vw, 32px);
+  font-size: clamp(26px, 3.4vw, 44px);
   font-weight: 300;
-  line-height: 1.3;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--iris);
   max-width: 760px;
