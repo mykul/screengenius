@@ -962,6 +962,18 @@ body {
   max-width: 720px;
 }
 
+/* Purple supporting line between the headline and the sub */
+.hero-tagline {
+  font-size: clamp(20px, 2.4vw, 32px);
+  font-weight: 300;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--iris);
+  max-width: 760px;
+  margin: 0 auto 22px;
+  animation: fadeUp 0.7s 0.1s var(--ease-out) both;
+}
+
 /* General heading scale for inline/static sections */
 .sec-wrap h2 {
   font-size: var(--h2-xl);
